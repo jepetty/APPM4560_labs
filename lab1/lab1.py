@@ -9,11 +9,13 @@ def generate_X(n):
 	perm = [6, 7, 2, 5, 1, 4,3 ]
 	for i in range(0,n):
 		sim = generate_random(7)
+		if sim == perm:
+			count = count + 1
 	return count
 
 def generate_random(count):
-	xarray[]
-	xdict{}
+	xarray=[]
+	xdict={}
 	for j in range(1, count+1):
 		x = random.randint(0,1000)/1000
 		xarray.append(x)
