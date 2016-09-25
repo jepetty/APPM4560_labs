@@ -142,9 +142,13 @@ We implement a procedure to simulate $Y$ with $n = 7$ by generating permutations
 
 \section{Computing Performance of Retrieving Algorithms}
 \subsection{}
+We seek $\mathbb{E}[Q_A]$.
+
+$Q_A$'s probability mass function $f_{Q_A}(x)$ represents the probability of position $x$ being the location of the number 1. Note that each possible position of the number 1 is equally likely with probability $1 / n$, so $f_{Q_A}(x) = 1 / n, 1 \leq x \leq n$. This means $\mathbb{E}[Q_A] = \sum_{k=1}^{n} \frac{1}{n} k = \frac{1}{n} \sum_{k = 1}^{n} k = \frac{1}{n} \frac{n (n + 1)}{2} = \frac{n + 1}{2}$.
 \subsection{}
 \subsection{}
 \subsection{}
+Blah blah blah binary search trees blah blah blah $\in O(\log_2(n))$. Can we find specific constants?
 \subsection{}
 
 \end{document}
