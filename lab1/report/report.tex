@@ -7,6 +7,7 @@
 						% TeX will automatically convert eps --> pdf in pdflatex		
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{array}
 \usepackage{indentfirst}
 \usepackage{enumitem}
 \usepackage{mathptmx}
@@ -152,6 +153,20 @@ We implement a procedure to simulate $Y$ with $n = 7$ by generating permutations
 $Q_A$'s probability mass function $f_{Q_A}(x)$ represents the probability of position $x$ being the location of the number 1. Note that each possible position of the number 1 is equally likely with probability $1 / n$, so $f_{Q_A}(x) = 1 / n, 1 \leq x \leq n$. This means $\mathbb{E}[Q_A] = \sum_{k=1}^{n} \frac{1}{n} k = \frac{1}{n} \sum_{k = 1}^{n} k = \frac{1}{n} \frac{n (n + 1)}{2} = \frac{n + 1}{2}$.
 \subsection{}
 \subsection{}
+The following table summarizes the findings of section 2.2:\\
+
+\begin{tabular} {| m{4cm} || m{3cm} | m{3cm} |}
+\hline
+\multicolumn{3} {| c |} {Comparison of Theoretical and Simulated Averages for $Q_{a}$}\\
+\hline\hline
+Permutation Length & Simulated & Theoretical\\
+\hline
+$n=9$ & 5.0246 & 5\\
+$n=21$ & 10.92 & 11\\
+$n=36$ & 18.6098 & 18.5\\
+$n=69$ & 35.1929 &35\\
+\hline
+\end{tabular}
 \subsection{}
 Blah blah blah binary search trees blah blah blah $\in O(\log_2(n))$. Can we find specific constants?
 \subsection{}

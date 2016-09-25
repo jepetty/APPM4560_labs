@@ -48,7 +48,7 @@ def generate_random(count):
 	xarray=[]
 	xdict={}
 	for j in range(1, count+1):
-		x = random.randint(0,1000)/1000
+		x = random.random()
 		xarray.append(x)
 		xdict[x] = j
 	xarray.sort()

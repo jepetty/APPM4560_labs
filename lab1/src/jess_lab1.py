@@ -8,10 +8,10 @@ def main():
 	average36 = 0
 	average69 = 0
 	for i in range(0,10000):
-		average9 = average9 + find_first_positionB(9)
-		average21 = average21 + find_first_positionB(21)
-		average36 = average36 + find_first_positionB(36)
-		average69 = average69 + find_first_positionB(69)
+		average9 = average9 + find_first_positionA(9)
+		average21 = average21 + find_first_positionA(21)
+		average36 = average36 + find_first_positionA(36)
+		average69 = average69 + find_first_positionA(69)
 	average9 = average9/10000
 	average21 = average21/10000
 	average36 = average36/10000
