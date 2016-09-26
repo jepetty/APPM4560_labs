@@ -153,11 +153,11 @@ We implement a procedure to simulate $Y$ with $n = 7$ by generating permutations
 $Q_A$'s probability mass function $f_{Q_A}(x)$ represents the probability of position $x$ being the location of the number 1. Note that each possible position of the number 1 is equally likely with probability $1 / n$, so $f_{Q_A}(x) = 1 / n, 1 \leq x \leq n$. This means $\mathbb{E}[Q_A] = \sum_{k=1}^{n} \frac{1}{n} k = \frac{1}{n} \sum_{k = 1}^{n} k = \frac{1}{n} \frac{n (n + 1)}{2} = \frac{n + 1}{2}$.
 \subsection{}
 \subsection{}
-The following table summarizes the findings of section 2.2:\\
+The following table summarizes the simulation of $Q_{A}$ for various permutation lengths and compares this simulation with the theoretical expected values for $Q_{A}$:\\
 
 \begin{tabular} {| m{4cm} || m{3cm} | m{3cm} |}
 \hline
-\multicolumn{3} {| c |} {Comparison of Theoretical and Simulated Averages for $Q_{a}$}\\
+\multicolumn{3} {| c |} {Comparison of Theoretical and Simulated Averages for $Q_{A}$}\\
 \hline\hline
 Permutation Length & Simulated & Theoretical\\
 \hline
@@ -166,9 +166,27 @@ $n=21$ & 10.92 & 11\\
 $n=36$ & 18.6098 & 18.5\\
 $n=69$ & 35.1929 &35\\
 \hline
-\end{tabular}
+\end{tabular}\\ \\
+The results found from our simulation are not entirely surprising given the theoretical expectations. We found that the percent error was less than $1\%$ for each value of $n$. In fact, the average percent error across the four values of $n$ is $0.591\%$, illustrating the accuracy of our simulation and predictions.This itself is quite unsurprising, supporting the accuracy and reliability of both our analysis and our simulation algorithm. .00492 .00727 .005935 .005511
 \subsection{}
-Blah blah blah binary search trees blah blah blah $\in O(\log_2(n))$. Can we find specific constants?
+Here, we seek $\mathbb{E}[Q_B]$.
+
+$Q_B$'s probability mass function $f_{Q_B}(x)$ represents the probability of discovering the position of the number 1 after $x$ guesses. Note though, unlike $Q_A$ the value of $n$ is not constant, but rather is cut approximately in half at each iteration. In other words, we would expect the value of $Q_B$ to not be linearly related to $n$, as is the case with $Q_A$, but rather logarithmically related. Therefore, when $n$ is relatively large, it is reasonable to assume that $\mathbb{E}[Q_B]\approx \log_2(n)$. Additionally, knowing that Method B simulates searching through a binary search tree, we know that its expected value, the expected value of search time in a binary tree is $\in O(\log_2(n))$. 
 \subsection{}
+The following table summarizes the simulation of $Q_B$ for various permutation lengths. The table also compares this simulation value with $\log_2(n)$, the theoretical value for $Q_B$ when $n$ grows quite large.\\
+
+\begin{tabular}{| m{4cm} || m{3.5cm} | m{3.5cm} |}
+\hline
+\multicolumn{3}{|c|}{Comparison of Theoretical and Simulated Averages for $Q_B$}\\
+\hline\hline
+Permutation Length & Simulated & Theoretical: $\log_2(n)$\\
+\hline
+$n=9$ & 3.336 & 3.1699\\
+$n=21$ & 4.7177 & 4.3923\\
+$n=36$ & 5.3284 & 5.1699\\
+$n=69$ & 6.2213 & 6.1085\\
+\hline
+\end{tabular}\\ \\
+Unsurprisingly, the values of $Q_B$ are less than $Q_A$, and do in fact scale with $\log_2{Q_A}$ as we initially suspected they would. The average percent error across the different permutations, however, is larger than that of $Q_B$'s comparisons, with a percent error of nearly $4.39\%$. This is also not very surprising though, because we were comparing $Q_A$'s simulations to an exact theoretical calculation, whereas $Q_B$ was being compared to an, albeit accurate, approximation. This approximation, however, seems to be fairly accurate for the permutation lengths chosen for inspection, and additionally becomes more accurate as the permutation length increases, a phenomenon which we predicted. Again, this behavior is fairly expected. Because $\log_2(n)$ is only an approximation, we would not expect the simulation to produce values precisely in line with this approximation, but it does produce a relationship accurate enough to confirm our approximation.
 
 \end{document}
