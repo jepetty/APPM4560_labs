@@ -23,6 +23,8 @@ def main():
     hist_X_dict, extent_X = lines_to_dict(lines_X)
     hist_Y_dict, extent_Y = lines_to_dict(lines_Y)
 
+    list_X = lines_to_list(lines_X)
+    
     hist_X = dict_to_list(hist_X_dict, extent_X)
     # hist_Y starts at i = 1: at least one trial is needed
     hist_Y = dict_to_list(hist_Y_dict, extent_Y)[1:extent_Y + 1]
@@ -53,17 +55,19 @@ def main():
 
     theory_Y = geom.pmf(domain_theory_Y, p)
 
+    n, bins, patches = plt.hist(list_X, extent_X, align='left', normed=True, facecolor='blue')
+    
     diagramX = plt.plot(
-        domain_hist_X,
-        normed_hist_X,
-        'b',
         domain_theory_X,
         theory_X,
         'r'
     )
-
+    
     plt.ylabel('P(X = x)')
     plt.xlabel('x')
+
+    axes = plt.gca()
+    axes.set_xlim(0, extent_X)
     
     plt.show(diagramX)
 
@@ -81,9 +85,16 @@ def main():
     plt.ylabel('P(Y = y)')
     plt.xlabel('y')
     
-    
     plt.show(diagramY)
 
+def lines_to_list(lines):
+    entries = []
+    extent = 0
+    for line in lines:
+        i = int(line)
+        entries.append(i)
+    return entries
+    
 def lines_to_dict(lines):
     d = {}
     extent = 0
