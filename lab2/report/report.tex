@@ -45,7 +45,7 @@ Observe that $T(N)$ is the maximum among $N$ independent identically distributed
 $$P(T(N) < t) = P(U_1 < t, \dots, U_N < t)$$
 which by independence is:
 $$P(U_1 < t) \times \dots \times P(U_N < t)$$
-and as $$P(U_1 < t), \dots,  P(U_N < t)$$ are all identically distributed, for $U \sim \text{Uniform}(0, t)$, this is simply:
+and as $P(U_1 < t), \dots,  P(U_N < t)$ are all identically distributed, for $U \sim \text{Uniform}(0, t)$, this is simply:
 $$P(U < t))^n = \left( \int_{0}^{t} p_U(x) \mathrm{d}x \right)^n = \left(\frac{t}{t}\right)^n = 1^n = 1$$
 
 Thus we always have that $T(N) < t \Rightarrow T(N + 1) - T(N) > T(N + 1) - t$.
