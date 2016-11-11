@@ -1,0 +1,57 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage[margin=1in]{geometry}               % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   	% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+						% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage{mathptmx}
+\usepackage{float}
+
+%SetFonts
+
+%SetFonts
+
+\setcounter{secnumdepth}{3} % default value for 'report' class is "2"
+
+\title{APPM 4560 Laboratory 2 Report}
+\author{Rhys Olsen\\
+\texttt{rhys.olsen@colorado.edu}
+ \and Jessica Petty\\
+ \texttt{jessica.petty@colorado.edu}
+ }
+\date{November 16, 2016}
+
+\begin{document}
+\maketitle
+\part{Simulating a homogenous Poisson process (HPP)}
+\chapter{}
+The random variables $T(1), \dots, T(N)$ represent the times of the arrivals of the HPP on the domain $[0, t]$. Note that while $[0, t]$ is pre-determined by the way the problem is posed, $N$ is a random variable based on how many arrivals the simulation generates on $[0, t]$ and is \emph{not} pre-determined.
+\chapter{}
+As $N$ represents the number of arrivals of a Poisson process in a time window of size $t - 0 = t$, $N \sim \text{Poisson}(\lambda t)$.
+\chapter{}
+As $T(N)$ is defined as the time of the last arrival of the HPP in time interval $[0, t]$, $T(N + 1)$ represents the time of the first arrival of the HPP \emph{after} time $t$.
+\chapter{}
+The random variable $T(N + 1) - t$ is the amount of time taken after $t$ until the next arrival of the HPP. Each individual arrival of the HPP, including $T(N + 1)$, is exponentially distributed with rate paramater $\lambda$ by assumption. Since $N(T)$ is the \emph{last} arrival of the HPP on $[0, t]$, we have that $T(N + 1) > t$. By the memoryless property, $P(N(T + 1) > t + s | N(T + 1) > t) = P(N(T + 1) > s)$, which amounts to saying that $T(N + 1) - t \sim \text{Exp}(\lambda)$
+\chapter{}
+The random variables $T(N + 1) - t$ and $T(N + 1) - T(N)$ do \emph{not} have the same distribution.
+
+Observe that $T(N)$ is the maximum among $N$ independent identically distributed uniform random variables on $[0,t]$ $U_1, \dots, U_N \sim_{\text{i.i.d.}} \text{Uniform}(0, t)$, so:
+$$P(T(N) < t) = P(U_1 < t, \dots, U_N < t)$$
+which by independence is:
+$$P(U_1 < t) \times \dots \times P(U_N < t)$$
+and as $$P(U_1 < t), \dots,  P(U_N < t)$$ are all identically distributed, for $U \sim \text{Uniform}(0, t)$, this is simply:
+$$P(U < t))^n = \left( \int_{0}^{n} p_U(x) \mathrm{d}x \right)^n = \left(\frac{t}{t}\right)^n = 1^n = 1$$
+
+Thus we always have that $T(N) < t \Rightarrow T(N + 1) - T(N) > T(N + 1) - t$.
+\chapter{}
+
+\part{Simulating a Non-homogenous Poisson process (NHPP)}
+\chapter{}
+
+\end{document}
