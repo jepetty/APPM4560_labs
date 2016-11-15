@@ -5,6 +5,12 @@ import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 
 def main():
+    simulate_hpp()
+
+def simulate_nhpp():
+    t = 9
+
+def simulate_hpp():
     intensity = 3
     t = 4
     sims = [hpp(intensity, t) for i in range(0, 10000)]
@@ -28,15 +34,27 @@ def main():
     Zs = [sim[-1] for sim in sims]
     
     diagramNs = plt.hist(Ns, 10)
+    plt.title("Simulations of N over [0,4] for HPP(3)")
+    plt.xlabel("N")
+    plt.ylabel("Count of N")
     plt.show(diagramNs)
     
     diagramXs = plt.hist(Xs, 10)
+    plt.title("Simulations of T(N+1) - T(N) over [0,4] for HPP(3)")
+    plt.xlabel("T(N+1) - T(N)")
+    plt.ylabel("Count of T(N+1) - T(N)")
     plt.show(diagramXs)
     
     diagramYs = plt.hist(Ys, 10)
+    plt.title("Simulations of T(N+1) - t over [0,4] for HPP(3)")
+    plt.xlabel("T(N+1) - t")
+    plt.ylabel("Count of T(N+1) - t")
     plt.show(diagramYs)
 
     diagramZs = plt.hist(Zs, 10)
+    plt.title("Simulations of T(N+1) over [0,4] for HPP(3)")
+    plt.xlabel("T(N+1)")
+    plt.ylabel("Count of T(N+1)")
     plt.show(diagramZs)
     
     print("Grr")
