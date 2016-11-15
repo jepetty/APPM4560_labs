@@ -40,8 +40,6 @@ def main():
     plt.show(diagramZs)
     
     print("Grr")
-    while True:
-        continue
     
 def hpp(intensity, t):
     i = 0
@@ -50,6 +48,24 @@ def hpp(intensity, t):
         U = random.random()
         i = i + 1
         T.append(T[i - 1] - (math.log(U) / intensity))
+    return T
+
+def nhpp(C, t):
+    '''
+    Returns a simulated number of arrivals between time 0 and t of the nonhomogenous
+    point process with intensity function y(t) = t^2 - 10t + 26
+    '''
+    i = 0;
+    T = [0]
+    while T[i] <= t:
+        U1 = random.random()
+        i = i + 1
+        T1 = T[i - 1] - (math.log(U1)/C)
+        T.append(T1)
+        U2 = random.random()
+        lambda_func = T1^2 - 10*T1 + 26
+        if U2 > T1:
+            return T
     return T
 
 if __name__ == "__main__":
