@@ -4,13 +4,18 @@ import math
 
 
 import numpy as np
+import scipy as sci
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 
-from scipy.stats import expon
-from scipy.stats import gamma
+import scipy.stats as stats
+
+# from scipy.stats import expon
+# from scipy.stats import gamma
+# from scipy.stats import poisson
 
 def main():
+    # print(sci.__version__)
     simulate_hpp()
     simulate_nhpp()
 
@@ -50,38 +55,39 @@ def simulate_hpp():
     # T(N + 1)
     Zs = [sim[-1] for sim in sims]
 
-    diagramNs = plt.hist(Ns, 15, normed=True)
+    NsSupport = np.arange(0,max(Ns))
+    theoryNs = plt.plot(NsSupport, stats.poisson.pmf(NsSupport, mu=12))
+    diagramNs = plt.hist(Ns, normed=True,color='r')
     plt.title("Simulations of $N$ over $[0,4]$ for HPP(3)")
     plt.xlabel("$N$")
     plt.ylabel("Count of $N$")
     plt.show()
 
     XsSupport = np.linspace(0, max(Xs))
-    theoryXs  = plt.plot(XsSupport, expon().pdf(XsSupport)) 
-    diagramXs = plt.hist(Xs, 15, normed=True)
+    theoryXs  = plt.plot(XsSupport, stats.expon.pdf(XsSupport,loc=0,scale=1/3)) 
+    diagramXs = plt.hist(Xs, normed=True,color='r')
     plt.title("Simulations of $T(N+1) - T(N)$ over $[0,4]$ for HPP(3)")
     plt.xlabel("$T(N+1) - T(N)$")
     plt.ylabel("Count of $T(N+1) - T(N)$")
     plt.show()
     
-    YsSupport = np.linspace(0,int(max(Ys) + 1.0))
-    theoryYs  = plt.plot(YsSupport, expon().pdf(YsSupport)) 
-    diagramYs = plt.hist(Ys, 15, normed=True)
+    YsSupport = np.linspace(0,max(Xs))
+    theoryYs  = plt.plot(YsSupport, stats.expon.pdf(YsSupport,loc=0,scale=1/3))
+    diagramYs = plt.hist(Ys, normed=True,color='r')
     plt.title("Simulations of $T(N+1) - t$ over $[0,4]$ for HPP(3)")
     plt.xlabel("$T(N+1) - t$")
     plt.ylabel("Count of $T(N+1) - t$")
     plt.show()
 
-    ZsSupport = np.linspace(0, max(Zs))
-    theoryZs  = plt.plot(ZsSupport, gamma(4).pdf(ZsSupport)) 
-    diagramZs = plt.hist(Zs, 10)
+    ZsSupport = np.linspace(4.0, max(Zs))
+    # theoryZs  = plt.plot(ZsSupport, gamma(4).pdf(ZsSupport))
+    theoryZs = plt.plot(ZsSupport, stats.expon.pdf(ZsSupport,loc=4,scale=1/3))
+    diagramZs = plt.hist(Zs, normed=True,color='r')
     plt.title("Simulations of $T(N+1)$ over $[0,4]$ for HPP(3)")
     plt.xlabel("$T(N+1)$")
     plt.ylabel("Count of $T(N+1)$")
     plt.show()
-    
-    print("Grr")
-    
+
 def hpp(intensity, t):
     i = 0
     T = [0]
