@@ -58,16 +58,17 @@ The algorithm to simulate a Nonhomogenous Poisson Point Process with intensity f
 \item[\textsc{step 1:}] Calculate the maximum $C$ of the function $\lambda(t)$ on the interval $[0,T]$
 \item[\textsc{step 2:}] Set $i:=0$ and $T(0):=0$
 \item[\textsc{step 3:}] Generate $U_1 \sim \text{Uniform}(0,1)$
-\item[\textsc{step 4:}] Set $i := i + 1$ and $T(i) := T(i-1) - \ln(U_1)/C$
+\item[\textsc{step 4:}] Set $i:=i+1$ and $T(i) := T(i-1) - \ln(U_1)/C$
 \item[\textsc{step 5:}] Generate $U_2 \sim\text{Uniform}(0,1)$
-\item[\textsc{step 6:}] If $T(i) > t$ or if $U_2 > \frac{\lambda(T(i))}{C}$, set $N:=i-1$ and stop. Otherwise, go to Step 2.
+\item[\textsc{step 6:}] If $T(i) > t$, set $N:=i-1$ and stop. Otherwise, if $U_2 > \frac{\lambda(T(i))}{C}$, set $i:=i-1$. Go to Step 3.
 \end{enumerate}
-It is necessary to develop a constant $C$ such that $0\leq{\lambda}\leq{C}$. This comprises Step 1 of the algorithm, which is simple in the case posed by the problem. Because we have that $t$ is bounded between 0 and 9, we observe that the maximum of $\lambda(t) = t^2 - 10t + 26$ occurs at $t=0$, $\lambda(0)=26$.\\
-
-For the intensity function $\lambda(t) = t^2 - 10 t + 26$, the corresponding $\Lambda(t) = \int_{0}^{t} s^2 - 10 s + 26 \mathrm{d}s = \left[ \frac{1}{3}s^3 - 5 s^2 + 26 s + C \right]_{0}^{t}$, which is simply $\frac{1}{3}t^3 - 5 t^2 + 26 t $.
 
 \section{}
-Theoretical description of $W$ and $\mathbb{E}[W]$
+$W$ represents the random number of arrivals in the time interval $[0, T]$ of a non-homogenous Poisson process with rate function $\lambda(t)$. The mean function corresponding to this rate function is $\Lambda(t) = \int_{0}^{t}\lambda(s)\mathrm{d}s $. Now, the expected number of arrivals $W$ of a non-homogenous Poisson process with intensity function $\lambda(t)$ over the interval $[0, T]$ has a distribution Poisson($\Lambda(T)$). 
+
+Given a non-homogenous Poisson process with intensity function $\lambda(t)=t^2-10t+26$, the corresponding mean function is $\Lambda(t)=\frac{t^3}{3}-5t^2+26t$. Over the interval $[0,9]$, the mean function evaluates to $\Lambda(9)=\frac{9^3}{3} - 5(9)^2+26(9) = 72$. Therefore, the random variable $W$ has a theoretical distribution Poisson($72$).
+
+Additionally, the expected value of a Poisson distribution with rate parameter $\lambda$ is $\lambda$. Therefore, $\mathbb{E}[W]=\mathbb{E}[Poisson(72)]=72$.
 
 \section{}
 Plot and analyze a simulation

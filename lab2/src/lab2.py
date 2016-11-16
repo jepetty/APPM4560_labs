@@ -118,7 +118,6 @@ def nhpp(C, tn):
         if (U2 <= lambda_func):
             i = i + 1
             T.append(T1)
-        print(i)
     return T
 
 if __name__ == "__main__":
