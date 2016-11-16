@@ -46,13 +46,13 @@ $$P(T(N) < t) = P(U_1 < t, \dots, U_N < t)$$
 which by independence is:
 $$P(U_1 < t) \times \dots \times P(U_N < t)$$
 and as $P(U_1 < t), \dots,  P(U_N < t)$ are all identically distributed, for $U \sim \text{Uniform}(0, t)$, this is simply:
-$$P(U < t))^n = \left( \int_{0}^{t} p_U(x) \mathrm{d}x \right)^n = \left(\frac{t}{t}\right)^n = 1^n = 1$$
+$$P(U < t)^n = \left( \int_{0}^{t} p_U(x) \mathrm{d}x \right)^n = \left(\frac{t}{t}\right)^n = 1^n = 1$$
 
 Thus we always have that $T(N) < t \Rightarrow T(N + 1) - T(N) > T(N + 1) - t$.
 \section{}
 Having argued that $T(N + 1) - t \sim \text{Exp}(\lambda)$, we expect $T(N + 1) \sim \text{Exp}(\lambda) + t$. To justify this, we derive the probability density function $f_{T(N + 1)}(x)$.
 
-As $T(N)$ is by definition the last arrival time of the process before or during time $t$, it is not possible for $T(N + 1)$ to occur before or during time $t$. Thus $f_{T(N + 1)}(x) = 0$ for $x \leq t$. By the memoryless property of the exponential distribution, $P(T(N + 1) = t + s | T(N + 1) > t) = P(T(N + 1) = s)$, where the condition $T(N + 1) > t$ is given by the problem defintion. Moreover, on the a posteriori assumption that any further time increment $r$ elapses before $T(N + 1)$, the memoryless property also shows that $P(T(N + 1) = t + r + s | T(N + 1) > t + r) = P(T(N + 1) = s)$. The only distributrion that could satisfy these properties is an exponential with rate parameter $\lambda$ known to be greater than $t$, which is simply an exponential with rate paramater $\lambda$ shifted $t$ increments to the right. Thus:
+As $T(N)$ is by definition the last arrival time of the process before or during time $t$, it is not possible for $T(N + 1)$ to occur before or during time $t$. Thus $f_{T(N + 1)}(x) = 0$ for $x \leq t$. By the memoryless property of the exponential distribution, $P(T(N + 1) = t + s | T(N + 1) > t) = P(T(N + 1) = s)$, where the condition $T(N + 1) > t$ is given by the problem defintion. Moreover, on the a posteriori assumption that any further time increment $r$ elapses before $T(N + 1)$, the memoryless property also shows that $P(T(N + 1) = t + r + s | T(N + 1) > t + r) = P(T(N + 1) = s)$. The only distribution that could satisfy these properties is an exponential with rate parameter $\lambda$ known to be greater than $t$, which is simply an exponential with rate paramater $\lambda$ shifted $t$ increments to the right. Thus:
 \[
 f_{T(N + 1)}(x) =
 \begin{cases} 
