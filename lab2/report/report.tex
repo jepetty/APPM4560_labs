@@ -72,29 +72,30 @@ The values generated for $N$ after 10K simulations are consistent with our resul
 \end{figure}
 
 \subsubsection{Simulation of $T(N+1)-T(N)$ and $T(N+1)-t$ and Corresponding Analysis}
-Once again, the results of 10K simulations of $T(N+1)-T(N)$ and $T(N+1)-t$ are consistent with the ideas presented in part (1.5). We detailed that $T(N+1)-T(N)$ and $T(N+1)-t$ did not have the same distribution, which is clear from their corresponding plots. 
+Once again, the results of 10K simulations of $T(N+1)-T(N)$ and $T(N+1)-t$ are consistent with the ideas presented in part (1.5). We detailed that $T(N+1)-T(N)$ and $T(N+1)-t$ did not have the same distribution, which is clear from their corresponding plots. The results of 10K simulations of $T(N+1)-T(N)$ is plotted beside an Exponential random variable with rate $\lambda=3$. As can be observed, the bins of the histogram do not match the expected distribution of the exponential variable. Compare that to the results of 10K simulations of $T(N+1)-t$. These results are expected to take a distribution Exponential($\lambda$) where $\lambda=3$. This time, the theoretical distribution matches closely to the observed phenomenon. This confirms the claim that $T(N+1)-T(N)$ and $T(N+1)-t$ do not have the same distribution.
 \begin{figure}[H]
-\includegraphics[scale=.5]{hpp_tn1_tn}
-\caption{Plot of $T(n+1) - T(n)$}
+\includegraphics[scale=.45]{hpp_tn1_tn}
+\caption{The results of 10,000 simulations of $T(N+1)-T(N)$, the inter-arrival time between the last arrival on the interval $[0,4]$ and the first arrival after the interval. The displayed plot of the theoretical distribution of an Exponential with $\lambda=3$ does not match the results of the simulation.}
 \label{fig:x}
 \end{figure}
 
 \begin{figure}[H]
-\includegraphics[scale=.5]{hpp_tn1_t}
-\caption{Plot of $T(n+1) - t$}
+\includegraphics[scale=.45]{hpp_tn1_t}
+\caption{The results of 10,000 simulations of $T(N+1)-t$, the time between the first arrival after the end of the interval $[0,t]$ and t, beside the expected theoretical distribution, an Exponential with $\lambda=3$.}
 \label{fig:x}
 \end{figure}
 
-\subsubsection{}
+\subsubsection{Simulation and Analysis of $T(N+1)$}
+The claim in part (1.6) was that the probability density function $f_{T(N+1)}(x)$ for $T(N+1)$ was 0 for times $x \leq t$ and $\lambda e^{-\lambda x}$ otherwise. Clearly, the plot of this theoretical expectation is consistent with the results of the simulation. Observe that the simulated counts of $T(N+1)$ is in fact 0 for all times less than $t$, then closely matches the expected probability density function $f_{T(N+1)}(x)=\lambda e^{-\lambda x}$.
 \begin{figure}[H]
 \includegraphics[scale=.5]{hpp_tn1}
-\caption{Plot of $T(n+1)$}
+\caption{The results of 10,000 simulations of $T(N+1)$, the time of the first arrival of the HPP after the interval $[0,4]$, beside the expected probability density function $f_{T(N+1)}(x)=\lambda e^{-\lambda x}$.}
 \label{fig:x}
 \end{figure}
 
-\section{Simulating a Non-homogenous Poisson process (NHPP)}
-\subsection{}
-The algorithm to simulate a Nonhomogenous Poisson Point Process with intensity function $\lambda(t)$ is as follows:
+\section{Simulating a Non-homogenous Poisson Process (NHPP)}
+\subsection{Algorithm to Simulate a Non-homogenous Poisson Process}
+The algorithm to simulate a non-homogenous Poisson process with intensity function $\lambda(t)$ over an interval $[0,T]$ is as follows:
 \begin{enumerate}[leftmargin=30pt,labelindent=65pt,itemindent=30pt]
 \item[\textsc{step 1:}] Calculate the maximum $C$ of the function $\lambda(t)$ on the interval $[0,T]$
 \item[\textsc{step 2:}] Set $i:=0$, $T(0):=0$, and $N:=0$
@@ -104,18 +105,18 @@ The algorithm to simulate a Nonhomogenous Poisson Point Process with intensity f
 \item[\textsc{step 6:}] If $T(i) > t$, set $N:=N-1$ and stop. Otherwise, if $U_2 \leq \frac{\lambda(T(i))}{C}$, set $N:=N+1$. Go to Step 3.
 \end{enumerate}
 
-\subsection{}
-$W$ represents the random number of arrivals in the time interval $[0, T]$ of a non-homogenous Poisson process with rate function $\lambda(t)$. The mean function corresponding to this rate function is $\Lambda(t) = \int_{0}^{t}\lambda(s)\mathrm{d}s $. Now, the expected number of arrivals $W$ of a non-homogenous Poisson process with intensity function $\lambda(t)$ over the interval $[0, T]$ has a distribution Poisson($\Lambda(T)$). 
+\subsection{Theoretical Distribution of $W$ and Expected Value of $W$}
+$W$ represents the random number of arrivals in the time interval $[0, T]$ of a non-homogenous Poisson process with rate function $\lambda(t)$. The mean function corresponding to this rate function is $\Lambda(t) = \int_{0}^{t}\lambda(s)\mathrm{d}s $. Now, the expected number of arrivals $W$ of a non-homogenous Poisson process with intensity function $\lambda(t)$ over the interval $[0, T]$ has a theoretical distribution Poisson($\Lambda(T)$). 
 
-Given a non-homogenous Poisson process with intensity function $\lambda(t)=t^2-10t+26$, the corresponding mean function is $\Lambda(t)=\frac{t^3}{3}-5t^2+26t$. Over the interval $[0,9]$, the mean function evaluates to $\Lambda(9)=\frac{9^3}{3} - 5(9)^2+26(9) = 72$. Therefore, the random variable $W$ has a theoretical distribution Poisson($72$).
+Given a non-homogenous Poisson process with intensity function $\lambda(t)=t^2-10t+26$, the corresponding mean function is $\Lambda(t)=\int_{0}^{t}\lambda(s)\mathrm{d}s=\left[\frac{s^3}{3} - 5s^2 + 26s\right]_{0}^{t} =\frac{t^3}{3}-5t^2+26t$. Over the interval $[0,9]$, the mean function evaluates to $\Lambda(9)=\frac{9^3}{3} - 5(9)^2+26(9) = 72$. Therefore, the random variable $W$ has a theoretical distribution $\sim \text{Poisson}(72)$.
 
-Additionally, the expected value of a Poisson distribution with rate parameter $\lambda$ is $\lambda$. Therefore, $\mathbb{E}[W]=\mathbb{E}[Poisson(72)]=72$.
+Additionally, the expected value of a Poisson distribution with rate parameter $\lambda$ is, by definition, $\lambda$. Therefore, for the random variable $W \sim \text{Poisson}(72)$, $\mathbb{E}[W]=72$.
 
-\subsection{}
-Plot and analyze a simulation
+\subsection{Simulation and Analysis of Arrivals of a Non-homogenous Poisson Process}
+After 10K simulations of a non-homogenous Poisson process with rate function $\lambda(t) =t^2-10T+26$ over the interval $[0,9]$, the simulated number of arrivals, $W$ in that interval is plotted and analyzed. The histogram displaying the observed counts of $W$ is compared with the probability mass function of a Poisson distribution with rate $\lambda = 72$. This p.m.f. represents the theoretical distribution of $W$, and as can be seen from the plot the theoretical distribution matches the results of the simulations very closely. Furthermore, if $W \sim \text{Poisson}(72)$, one would expect to observe an average of 72 arrivals over the interval. The simulated average value for $W$ is 71.6909, thus revealing the accuracy in the analysis of the distribution of $W$.
 \begin{figure}[H]
 \includegraphics[scale=.5]{nhpp_n}
-\caption{Non-homogenous Poisson process simulation}
+\caption{The results of 10,000 simulations of $W$, the number of arrivals on $[0,9]$ for a non-homogenous Poisson process with rate function $\lambda(t)=t^2-10t+26$. These results are plotted beside the probability mass function of a Poisson random variable with rate $\lambda=72$, the expected distribution of $W$.}
 \label{fig:x}
 \end{figure}
 
