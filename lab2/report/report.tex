@@ -66,11 +66,11 @@ f_{T(N + 1)}(x) =
 The algorithm to simulate a Nonhomogenous Poisson Point Process with intensity function $\lambda(t)$ is as follows:
 \begin{enumerate}[leftmargin=30pt,labelindent=65pt,itemindent=30pt]
 \item[\textsc{step 1:}] Calculate the maximum $C$ of the function $\lambda(t)$ on the interval $[0,T]$
-\item[\textsc{step 2:}] Set $i:=0$ and $T(0):=0$
+\item[\textsc{step 2:}] Set $i:=0$, $T(0):=0$, and $N:=0$
 \item[\textsc{step 3:}] Generate $U_1 \sim \text{Uniform}(0,1)$
 \item[\textsc{step 4:}] Set $i:=i+1$ and $T(i) := T(i-1) - \ln(U_1)/C$
 \item[\textsc{step 5:}] Generate $U_2 \sim\text{Uniform}(0,1)$
-\item[\textsc{step 6:}] If $T(i) > t$, set $N:=i-1$ and stop. Otherwise, if $U_2 > \frac{\lambda(T(i))}{C}$, set $i:=i-1$. Go to Step 3.
+\item[\textsc{step 6:}] If $T(i) > t$, set $N:=N-1$ and stop. Otherwise, if $U_2 \leq \frac{\lambda(T(i))}{C}$, set $N:=N+1$. Go to Step 3.
 \end{enumerate}
 
 \section{}

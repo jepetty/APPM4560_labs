@@ -122,7 +122,7 @@ def nhpp(C, tn):
         lambda_func = (T1*T1 - 10*T1 + 26)/C
         if (U2 <= lambda_func):
             N = N + 1
-    return N
+    return N - 1
 
 if __name__ == "__main__":
     main()
