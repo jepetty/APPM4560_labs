@@ -16,7 +16,7 @@ import scipy.stats as stats
 
 def main():
     # print(sci.__version__)
-    simulate_hpp()
+    #simulate_hpp()
     simulate_nhpp()
 
 def simulate_nhpp():
@@ -25,7 +25,9 @@ def simulate_nhpp():
     C = 26
     sims = [nhpp(C,t) for i in range (0, 10000)]
 
-    Ns = [len(sim) - 1 for sim in sims]
+    Ns = [len(sim) - 2 for sim in sims]
+    average = sum(i for i in Ns)/10000
+    print("Simulated value of W: ", average)
 
     diagramNs = plt.hist(Ns, 10, color='r')
     plt.title("Simulations of $N$ for NHPP($\lambda(t)=t^2 - 10t + 26$) over $[0,9]$")
@@ -48,6 +50,8 @@ def simulate_hpp():
                     f.write('\n')
     '''
     Ns = [len(sim) - 2 for sim in sims]
+    average = sum(i for i in Ns)/10000
+    print("Simulated value of N: ", average)
     # T(N + 1) - T(N)
     Xs = [sim[-1] - sim[-2] for sim in sims]
     # T(N + 1) - t
@@ -97,22 +101,24 @@ def hpp(intensity, t):
         T.append(T[i - 1] - (math.log(U) / intensity))
     return T
 
-def nhpp(C, t):
+def nhpp(C, tn):
     '''
     Returns a simulated number of arrivals between time 0 and t of the nonhomogenous
     point process with intensity function y(t) = t^2 - 10t + 26
     '''
-    i = 0;
+    i = 0
     T = [0]
-    while T[i] <= t:
+    lambda_func = 0
+    U2 = 0
+    while T[i] <= tn:
         U1 = random.random()
-        i = i + 1
-        T1 = T[i - 1] - (math.log(U1)/C)
-        T.append(T1)
+        T1 = T[i] - (math.log(U1)/C)
         U2 = random.random()
-        lambda_func = T1*T1 - 10*T1 + 26
-        if U2 > lambda_func:
-            return T
+        lambda_func = (T1*T1 - 10*T1 + 26)/C
+        if (U2 <= lambda_func):
+            i = i + 1
+            T.append(T1)
+        print(i)
     return T
 
 if __name__ == "__main__":
