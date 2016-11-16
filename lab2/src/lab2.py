@@ -25,11 +25,13 @@ def simulate_nhpp():
     C = 26
     sims = [nhpp(C,t) for i in range (0, 10000)]
 
-    Ns = [len(sim) - 2 for sim in sims]
-    average = sum(i for i in Ns)/10000
+    #Ns = [len(sim) - 2 for sim in sims]
+    average = sum(i for i in sims)/10000
     print("Simulated value of W: ", average)
 
-    diagramNs = plt.hist(Ns, 10, color='r')
+    NsSupport = np.arange(0,max(sims))
+    theoryNs = plt.plot(NsSupport, stats.poisson.pmf(NsSupport,mu=72))
+    diagramNs = plt.hist(sims, normed=True, color='r')
     plt.title("Simulations of $N$ for NHPP($\lambda(t)=t^2 - 10t + 26$) over $[0,9]$")
     plt.xlabel("$N$")
     plt.ylabel("Count of $N$")
@@ -108,17 +110,19 @@ def nhpp(C, tn):
     '''
     i = 0
     T = [0]
+    N = 0
     lambda_func = 0
     U2 = 0
     while T[i] <= tn:
         U1 = random.random()
-        T1 = T[i] - (math.log(U1)/C)
+        i = i + 1
+        T1 = T[i-1] - (math.log(U1)/C)
+        T.append(T1)
         U2 = random.random()
         lambda_func = (T1*T1 - 10*T1 + 26)/C
         if (U2 <= lambda_func):
-            i = i + 1
-            T.append(T1)
-    return T
+            N = N + 1
+    return N
 
 if __name__ == "__main__":
     main()
