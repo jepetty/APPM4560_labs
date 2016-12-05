@@ -5,6 +5,11 @@
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}
 \usepackage{amssymb}
+\usepackage{amsmath}
+%\usepackage{array}
+%\usepackage{indentfirst}
+%\usepackage{mathptmx}
+\usepackage{enumitem}
 
 \setcounter{secnumdepth}{3}
 
@@ -30,7 +35,28 @@ When $X$ is stationary, the fraction of time that the server is \textit{not} bus
 
 For an M/M/1-queue, $\pi(0)=1-\frac{\lambda}{\mu}$. (PROOF can be found in notes if we decide it is necessary). Therefore, the fraction of time that the server \textit{is} busy is $1-\pi(0)=1-(1-\frac{\lambda}{\mu})=\frac{\lambda}{\mu}$
 
-\subsection{}
+\subsection{Simulation of M/M/1-queue}
+Hi Rhys, this is my best attempt at the algorithm. I figured that something written down was better than nothing, and you can swoop in and make it better.
+
+\begin{enumerate}[leftmargin=30pt, labelindent=65pt, itemindent=30pt]
+\item[\textsc{step 1:}] Given inputs $T$, $\lambda$, and $\mu$, set $t:=0$, $i_1:=0$, $D=[]$, $A=[]$, $AD=[]$
+\item[\textsc{step 2:}] Simulate $r_1 \sim \text{Exponential} (\lambda)$ and set $t:=t+r_1$
+\item[\textsc{step 3:}] If $t > T$, go to Step 4, else set $A[i]:=t$, $AD[i] = (t,1)$, $i_1:=i_1+1$ and go back to Step 2
+%\begin{enumerate}[leftmargin=25pt, labelindent=65pt, itemindent=25pt]
+%\item[\textsc{step 1.1:}] maybe
+%\item[\textsc{step 1.2:}] yass
+%\end{enumerate}
+\item[\textsc{step 4:}] Set $t:=0$, $i_2:=0$
+\item[\textsc{step 5:}] Simulate $r_2 \sim \text{Exponential} (\mu)$ and set $t:=t+r_2$
+\item[\textsc{step 6:}] If $t>T$ go to Step 7, else set $D[i]:=r_2$, $i_2:=i_2+1$ and go back to Step 5
+\item[\textsc{step 7:}] Set $i_{arr}:=0$, $i_{dep}:=0$, and $d:=A[i_{arr}] + D[i_{dep}]$
+\item[\textsc{step 8:}] Set $i_{arr}:=i_{arr}+1$, $i_{dep}:=i_{dep}+1$
+\begin{enumerate}[leftmargin=25pt, labelindent=65pt, itemindent=25pt]
+\item[\textsc{step 8.1:}] If $d < T$, set $AD[i_1]:= (d,-1)$ and $i_1=i_1+1$, else return AD
+\item[\textsc{step 8.2:}] If $d + D[i_{dep}] > A[i_{arr}]$, set $d:=d+D[i_{dep}]$ and go to Step 8
+\item[\textsc{step 8.3}] Else if $d + D[i_{dep}] < A[i_{arr}]$, set $d:=A[i_{arr}] + D[i_{dep}]$ and to to Step 8
+\end{enumerate}
+\end{enumerate}
 \subsection{}
 \subsection{}
 \subsection{}
