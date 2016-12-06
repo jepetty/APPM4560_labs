@@ -42,10 +42,6 @@ Hi Rhys, this is my best attempt at the algorithm. I figured that something writ
 \item[\textsc{step 1:}] Given inputs $T$, $\lambda$, and $\mu$, set $t:=0$, $i_1:=0$, $D=[]$, $A=[]$, $AD=[]$
 \item[\textsc{step 2:}] Simulate $r_1 \sim \text{Exponential} (\lambda)$ and set $t:=t+r_1$
 \item[\textsc{step 3:}] If $t > T$, go to Step 4, else set $A[i]:=t$, $AD[i] = (t,1)$, $i_1:=i_1+1$ and go back to Step 2
-%\begin{enumerate}[leftmargin=25pt, labelindent=65pt, itemindent=25pt]
-%\item[\textsc{step 1.1:}] maybe
-%\item[\textsc{step 1.2:}] yass
-%\end{enumerate}
 \item[\textsc{step 4:}] Set $t:=0$, $i_2:=0$
 \item[\textsc{step 5:}] Simulate $r_2 \sim \text{Exponential} (\mu)$ and set $t:=t+r_2$
 \item[\textsc{step 6:}] If $t>T$ go to Step 7, else set $D[i]:=r_2$, $i_2:=i_2+1$ and go back to Step 5
@@ -57,9 +53,14 @@ Hi Rhys, this is my best attempt at the algorithm. I figured that something writ
 \item[\textsc{step 8.3}] Else if $d + D[i_{dep}] < A[i_{arr}]$, set $d:=A[i_{arr}] + D[i_{dep}]$ and to to Step 8
 \end{enumerate}
 \end{enumerate}
-\subsection{}
-\subsection{}
-\subsection{}
+
+\subsection{Determining $X_T$}
+Based on the provided pseudo-code, one can easily determine $X_T$. After running the given simulation, one will have a vector of tuples containing the time of the event and a value indicating whether the event was an arrival or a simulation. To calculate $X_T$, starting with zero items in the queue, simply examine each element in the returned vector. If that item has a timestamp less than $T$ and if it is marked as an arrival, increment the count of items in the queue, otherwise if its time stamp is less than $T$ but it represents a departure, deprecate the count of items in the queue.
+
+\subsection{Fraction of Busy Server Time}
+To calculate the fraction of time that the server is busy between times $0 \text{ and } T$, again one will need to keep track of the number of items in the queue at any given time. This time, it will be necessary to create temporary variables in order to store all the values needed to compute the fraction of time the server is busy. Create and set variables $t:=0$, $s:=0$, and $e:=0$. First, sort the tuples in the returned vector by the time stamp stored in the tuple, in ascending order. Again, examine the vector containing the tuples of departures and arrivals. This time, if the item total reaches $0$ (or starts at $0$), set the variable $s$ to be the time associated with the tuple being examined. Then, when the item total becomes non-zero, set the variable $e$ to be the time associated with the tuple being examined. Then, set $t:=t+(e-s)$. Once the contents of the vector have been fully examined, the fraction of time that the server is busy is simply $\frac{T-t}{T}$.
+
+\subsection{Determining Inter-Departure Times}
 \subsection{}
 \subsection{}
 \subsection{}
