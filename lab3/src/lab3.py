@@ -1,10 +1,34 @@
 #!/usr/bin/python3
-import random
+
 import math
+import random
+
+import numpy as np
+import scipy as sci
+import matplotlib.mlab as mlab
+import matplotlib.pyplot as plt
+
+import scipy.stats as stats
+import collections
 
 def main():
-    print(m_m_1_queue(1, 1, 0, 10))
+    l = 4
+    m = 3
+    q = m_m_1_queue(l, m, 0, 1000000)
 
+    # just to verify that things conform with expectation
+    ns = [event[2]  for event in q]
+    max_n = max(ns)
+    sigma = sum(ns)
+    print(sigma)
+    ns_counter = collections.Counter(ns)
+    pi = [float(ns_counter[i]) / float(sigma) for i in range(0, max_n + 1)]
+    diagram_support = range(1, max_n + 1)
+    diagram = plt.hist(ns, normed=True, color='r', align='left', bins = diagram_support)
+    theory_support = np.arange(1, max(ns) + 1)
+    theory = plt.plot(theory_support, stats.geom.pmf(theory_support, m / l))
+    plt.show()
+    
 # cannibalized from lab 2. Thanky, Jess.
 def hpp(intensity, t):
     i = 0
@@ -52,7 +76,6 @@ def m_m_1_queue(l, mu, n, T):
             '''
             tau = (q[i - 1][0] - (math.log(U) / (l + mu)))
             U_increment = random.random()
-            print("Rand: " + str(U_increment))
             if U_increment <= (l / (l + mu)):
                 # w/ prob l / (l + mu), an arrival
                 y = +1
@@ -63,6 +86,25 @@ def m_m_1_queue(l, mu, n, T):
         q.append((tau, y, n))
     return q[1:-1]
 
+def m_m_1_Jess(T, l, m):
+    t = 0
+    i = 0
+    D  = []
+    A  = []
+    AD = []
+    r_1 = -math.log(random.random()) / l
+    t += r_1
+    while t <= T:
+        A.append(t)
+        AD.append((t,1))
+        i += 1
+        r_1 = -math.log(random.random()) / l
+        t = t + r
+    t = 0
+    i = 0
+    r_2 = -math.log(random.random()) / m
+    t = t + r_2
+    # At this point I got confuzzled *~* help jess
+
 if __name__ == "__main__":
-    print("Hey")
     main()
