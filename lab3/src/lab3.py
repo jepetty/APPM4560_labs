@@ -15,7 +15,8 @@ def main():
     l = 1
     m = 2
     T = 50
-    simulate_part2(l, m, T)
+    #simulate_part2(l, m, T)
+    simulate_part3(l, m, T)
     #q = m_m_1_Jess(T, l, m)
 
     # just to verify that things conform with expectation
@@ -35,9 +36,9 @@ def main():
 def simulate_part2(l, m, T): 
     sims = []
     for i in range(0,10000):
-        n = simulate_n(l,m)
+        n = simulate_n(l, m)
         q = m_m_1_queue(l, m, n, T)
-        sims.append(calculate_Xt(q,n))
+        sims.append(calculate_Xt(q, n))
     diagram = plt.hist(sims, normed=True, color='r', align='left')
     theory_support = np.arange(1, max(sims)+1)
     theory = plt.plot(theory_support, stats.geom.pmf(theory_support, l/m))
@@ -45,6 +46,32 @@ def simulate_part2(l, m, T):
     plt.xlabel("$n$ number of items in queue at time $T$")
     plt.ylabel("Proportion of time with $n$ items")
     plt.show()
+
+def simulate_part3(l, m, T):
+    sims = []
+    for i in range(0,10000):
+        n = simulate_n(l,m)
+        q = m_m_1_queue(l, m, n, T)
+        sims.append(calculate_frac(q, n, T))
+    diagram = plt.hist(sims, normed=True, color='r', align='left')
+    plt.title("Simulations of Percent of Time the Server is Busy")
+    plt.xlabel("Percent of time the server is busy")
+    plt.ylabel("Proportion of simulations")
+    plt.show()
+
+def calculate_frac(q, n, T):
+    t = 0
+    if n == 0:
+        t = t + q[1][0]
+        q = q[1:]
+    for i in range(len(q)):
+        n = n + q[i][1]
+        if n == 0:
+            if (i < len(q) - 1):
+                t = t + (q[i+1][0] - q[i][0])
+            else:
+                t = t + (T - q[i][0])
+    return (T-t)/T
 
 def simulate_n(l,m):
     u = random.random()
