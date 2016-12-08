@@ -25,10 +25,10 @@
 \maketitle
 \section{Simulating a Single Server Queue}
 \subsection{Stationary Distribution of M/M/1-queue}
-For an M/M/1 queue to have a stationary distribution, it is a necessary and sufficient condition that its arrival rate be less than its service. In the case of the queue provided, this means that $\lambda < \mu$.
+For an M/M/1 queue to have a stationary distribution, it is a necessary and sufficient condition that its arrival rate be less than its service rate. In the case of the queue provided, this means that $\lambda < \mu$.
 
 \subsection{Distribution of a Stationary Queue}
-When $X$ is stationary, this is equivalent to saying that it is in equilibrium. We know that an M/M/1-queue in equilibrium will have a geometric distribution of items inside. Now, given that $X_T$ is the number of items in the queue at time $T$, we can then say that the distribution of $X_T$ is geometric with success parameter $\frac{\lambda}{\mu}$.
+When $X$ is stationary, this is equivalent to saying that it is in equilibrium. We know that an M/M/1-queue in equilibrium will have a geometric distribution of items inside. Given that $X_T$ is the number of items in the queue at time $T$, we can then say that the distribution of $X_T$ is geometric with success parameter $\frac{\lambda}{\mu}$.
 
 \subsection{Busy Server}
 When $X$ is stationary, the fraction of time that the server is \textit{not} busy is equivalent to the value $\pi(0)$. Conceptually, this is because the stationary distribution $\pi(x)$ represents the fraction of time that the queue has $x$ items in it. Clearly, if $x > 0$, this means the server is busy, as there are items in the queue, and when $x=0$ the server cannot be busy because there are no items in the queue, either waiting or being served.
@@ -76,13 +76,15 @@ Or, alternatively, one can use the superposition argument of exponentials to cre
 \end{enumerate}
 
 \subsection{Determining $X_T$}
-Based on the provided pseudo-code, one can easily determine $X_T$. After running the given simulation, one will have a vector of tuples containing the time of the event and a value indicating whether the event was an arrival or a simulation. To calculate $X_T$, starting with zero items in the queue, simply examine each element in the returned vector. If that item has a timestamp less than $T$ and if it is marked as an arrival, increment the count of items in the queue, otherwise if its time stamp is less than $T$ but it represents a departure, deprecate the count of items in the queue.
+Based on the provided pseudo-code, one can easily determine $X_T$. After running the given simulation, one will have a vector of tuples containing the time of the event and a value indicating whether the event was an arrival or a departure. To calculate $X_T$, starting with $n$ items in the queue, simply examine each element in the returned vector. If that item has a timestamp less than $T$ and if it is marked as an arrival, increment the count of items $n$ in the queue, otherwise if its time stamp is less than $T$ but it represents a departure, deprecate the count of items in the queue.
 
 \subsection{Fraction of Busy Server Time}
-To calculate the fraction of time that the server is busy between times $0 \text{ and } T$, again one will need to keep track of the number of items in the queue at any given time. This time, it will be necessary to create temporary variables in order to store all the values needed to compute the fraction of time the server is busy. Create and set variables $t:=0$, $s:=0$, and $e:=0$. First, sort the tuples in the returned vector by the time stamp stored in the tuple, in ascending order. Again, examine the vector containing the tuples of departures and arrivals. This time, if the item total reaches $0$ (or starts at $0$), set the variable $s$ to be the time associated with the tuple being examined. Then, when the item total becomes non-zero, set the variable $e$ to be the time associated with the tuple being examined. Then, set $t:=t+(e-s)$. Once the contents of the vector have been fully examined, the fraction of time that the server is busy is simply $\frac{T-t}{T}$.
+To calculate the fraction of time that the server is busy between times $0 \text{ and } T$, again one will need to keep track of the number of items $n$ in the queue at any given time. This time, it will be necessary to create temporary variables in order to store all the values needed to compute the fraction of time the server is busy. Create and set variables $t:=0$, $s:=0$, and $e:=0$. Again, examine the vector containing the tuples of departures and arrivals. This time, if the item total reaches $0$ (or if the queue is instantiated with $0$ items), set the variable $s$ to be the time associated with the tuple being examined. Then, when the item total becomes non-zero, set the variable $e$ to be the time associated with the new tuple being examined. Then, set $t:=t+(e-s)$. Once the contents of the vector have been fully examined, the fraction of time that the server is busy is simply $\frac{T-t}{T}$.
 
 \subsection{Determining Inter-Departure Times}
-\subsection{}
+Again, once the simulation of an M/M/1-queue has been performed, determining the inter-departure times of items in the queue can be done by examining the contents of the returned vector. For each tuple in the vector, examine whether that tuple represents an arrival or a departure. If it represents a departure, store its departure time until the next departure is found. At that point, add the difference of these two times to another vector storing inter-departure times and repeat the process, storing the most recent departure time as the first departure time in the algorithm. In this way, upon reaching the end of the vector, all inter-departure times between time $0 \text{and} T$ will have been calculated using the results of the simulation of an M/M/1-queue.
+
+\subsection{Simulating $X_T$ when $X$ is Stationary}
 \subsection{}
 \subsection{}
 

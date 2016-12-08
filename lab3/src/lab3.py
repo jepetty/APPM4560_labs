@@ -12,12 +12,14 @@ import scipy.stats as stats
 import collections
 
 def main():
-    l = 4
-    m = 3
-    q = m_m_1_queue(l, m, 0, 1000)
-    #q = m_m_1_Jess(1000, l, m)
+    l = 1
+    m = 2
+    T = 50
+    simulate_part2(l, m, T)
+    #q = m_m_1_Jess(T, l, m)
 
     # just to verify that things conform with expectation
+    '''
     ns = [event[2]  for event in q]
     max_n = max(ns)
     sigma = sum(ns)
@@ -28,7 +30,30 @@ def main():
     diagram = plt.hist(ns, normed=True, color='r', align='left', bins = diagram_support)
     theory_support = np.arange(1, max(ns) + 1)
     theory = plt.plot(theory_support, stats.geom.pmf(theory_support, m / l))
+    plt.show()'''
+
+def simulate_part2(l, m, T): 
+    sims = []
+    for i in range(0,10000):
+        n = simulate_n(l,m)
+        q = m_m_1_queue(l, m, n, T)
+        sims.append(calculate_Xt(q,n))
+    diagram = plt.hist(sims, normed=True, color='r', align='left')
+    theory_support = np.arange(1, max(sims)+1)
+    theory = plt.plot(theory_support, stats.geom.pmf(theory_support, l/m))
+    plt.title("Simulations of $X_T$ with $(\lambda, \mu, T) = (1,2,50)$")
+    plt.xlabel("$n$ number of items in queue at time $T$")
+    plt.ylabel("Proportion of time with $n$ items")
     plt.show()
+
+def simulate_n(l,m):
+    u = random.random()
+    i = 0
+    x = (1 - l/m)*(l/m)**i
+    while (u > x):
+        i = i + 1
+        x = x + (1 - l/m)*(l/m)**i
+    return i
     
 # cannibalized from lab 2. Thanky, Jess.
 def hpp(intensity, t):
@@ -40,6 +65,11 @@ def hpp(intensity, t):
         T.append(T[i - 1] - (math.log(U) / intensity))
     return T
 
+def calculate_Xt(q, n):
+    for i in range(len(q)):
+        n = n + q[i][1]
+    return n
+
 '''
     Input: (l, mu, n) where
        * l: intensity param for hpp arrivals
@@ -50,7 +80,6 @@ def hpp(intensity, t):
        * tau for 0 < tau < T  is the time of ith queue event
        * y = +1 if the t = tau event is an arrival; y = -1 if it's a departure
 '''
-
 def m_m_1_queue(l, mu, n, T):
     #t = 0
     i = 0
@@ -113,6 +142,8 @@ def m_m_1_Jess(T, l, m):
     while d < T:
         i_arr = i_arr + 1
         i_dep = i_dep + 1
+        if (i_arr >= len(A)) or (i_dep >= len(D)):
+            return AD
         n = n - 1
         AD.append((d,-1,n))
         if d + D[i_dep] > A[i_arr]:
