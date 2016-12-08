@@ -14,7 +14,8 @@ import collections
 def main():
     l = 4
     m = 3
-    q = m_m_1_queue(l, m, 0, 1000000)
+    q = m_m_1_queue(l, m, 0, 1000)
+    #q = m_m_1_Jess(1000, l, m)
 
     # just to verify that things conform with expectation
     ns = [event[2]  for event in q]
@@ -51,7 +52,7 @@ def hpp(intensity, t):
 '''
 
 def m_m_1_queue(l, mu, n, T):
-    t = 0
+    #t = 0
     i = 0
     tau = 0
     y = 0
@@ -88,22 +89,40 @@ def m_m_1_queue(l, mu, n, T):
 
 def m_m_1_Jess(T, l, m):
     t = 0
-    i = 0
     D  = []
     A  = []
     AD = []
+    n = 0
     r_1 = -math.log(random.random()) / l
     t += r_1
     while t <= T:
         A.append(t)
-        AD.append((t,1))
-        i += 1
+        n = n + 1
+        AD.append((t,1,n))
         r_1 = -math.log(random.random()) / l
-        t = t + r
-    t = 0
-    i = 0
+        t = t + r_1
     r_2 = -math.log(random.random()) / m
-    t = t + r_2
+    t = r_2
+    while t < T:
+        D.append(r_2)
+        r_2 = - math.log(random.random()) / m
+        t = t + r_2
+    i_arr = 0
+    i_dep = 0
+    d = A[0] + D[0]
+    while d < T:
+        i_arr = i_arr + 1
+        i_dep = i_dep + 1
+        n = n - 1
+        AD.append((d,-1,n))
+        if d + D[i_dep] > A[i_arr]:
+            d = d + D[i_dep]
+        elif d + D[i_dep] < A[i_arr]:
+            d = A[i_arr] + D[i_dep]
+    return AD
+
+
+
     # At this point I got confuzzled *~* help jess
 
 if __name__ == "__main__":
