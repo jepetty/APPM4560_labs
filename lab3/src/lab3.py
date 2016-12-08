@@ -16,7 +16,11 @@ def main():
     m = 2
     T = 50
     #simulate_part2(l, m, T)
-    simulate_part3(l, m, T)
+    #simulate_part3(l, m, T)
+    simulate_part4(l, m, T)
+
+    #q = m_m_1_queue(l, m, 0, T)
+    #find_inter_departure(q)
     #q = m_m_1_Jess(T, l, m)
 
     # just to verify that things conform with expectation
@@ -59,6 +63,51 @@ def simulate_part3(l, m, T):
     plt.ylabel("Proportion of simulations")
     plt.show()
 
+def simulate_part4(l, m, T):
+    sims = []
+    for i in range(0, 10000):
+        n = simulate_n(l, m)
+        q = m_m_1_queue(l, m, n, T)
+        sims.append(find_inter_departure(q))
+        #print(find_inter_departure(q))
+    # jacked analysis code for HPP from lab 2 thx
+    Ns = [len(sim) - 1 for sim in sims]
+    Xs = [sim[-1] - sim[-2] for sim in sims]
+    Ys = [T - sim[-1] for sim in sims]
+    Zs = [sim[-1] for sim in sims]
+
+    NsSupport = np.arange(0, max(Ns))
+    theoryNs = plt.plot(NsSupport, stats.poisson.pmf(NsSupport, mu=50))
+    diagramNs = plt.hist(Ns, normed=True, color='r')
+    plt.title("Simulations of $N(t)$ for HPP(1) over $[0, T=50]$")
+    plt.xlabel("$N(t)$")
+    plt.ylabel("Count of $N(t)$")
+    plt.show()
+
+    XsSupport = np.linspace(0, max(Xs))
+    theoryXs = plt.plot(XsSupport, stats.expon.pdf(XsSupport, loc=0, scale=1/3))
+    diagramXs = plt.hist(Xs, normed=True, color='r')
+    plt.title("Simulations of $T(N+1) - T(n)$ for HPP(1) over $[0, T=50]$")
+    plt.xlabel("$T(n) - T(n-1)$")
+    plt.ylabel("Count of $T(n+1) - T(n)$")
+    plt.show()
+
+    YsSupport = np.linspace(0, max(Ys))
+    theoryYs = plt.plot(YsSupport, stats.expon.pdf(YsSupport, loc=0, scale=1/3))
+    diagramYs = plt.hist(Ys, normed=True, color='r')
+    plt.title("Simulations of $T - T(n)$ for HPP(1) over $[0, T=50]$")
+    plt.xlabel("$T - T(n)$")
+    plt.ylabel("Count of $T - T(n)$")
+    plt.show()
+
+    ZsSupport = np.linspace(50, max(Zs))
+    theoryZs = plt.plot(ZsSupport, stats.expon.pdf(ZsSupport, loc=50, scale=1/3))
+    diagramZs = plt.hist(Zs, normed=True, color='r')
+    plt.title("Simulations of $T(n)$ for HPP(1) over $[0, T=50]$")
+    plt.xlabel("$T(n)$")
+    plt.ylabel("Count of $T(n)$")
+    plt.show()
+
 def calculate_frac(q, n, T):
     t = 0
     if n == 0:
@@ -72,6 +121,25 @@ def calculate_frac(q, n, T):
             else:
                 t = t + (T - q[i][0])
     return (T-t)/T
+
+def find_inter_departure(q):
+    first = 0
+    i = 0
+    times = []
+    '''while first == 0:
+        if q[i][1] == -1:
+            first = q[i][0]
+        i = i + 1
+    for i in range(i, len(q)):
+        if q[i][1] == -1:
+            times.append(q[i][0] - first)
+            first = q[i][0]
+    return times'''
+    for i in range(len(q)):
+        if q[i][1] == -1:
+            times.append(q[i][0])
+    return times
+
 
 def simulate_n(l,m):
     u = random.random()
