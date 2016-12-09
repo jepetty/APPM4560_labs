@@ -16,7 +16,7 @@ def main():
     m = 2
     T = 50
     simulate_part2(l, m, T)
-    simulate_part3(l, m, T)
+    simulate_part3_weirdness(l, m, T * 30)
     simulate_part4(l, m, T)
 
     #q = m_m_1_queue(l, m, 0, T)
@@ -61,6 +61,23 @@ def simulate_part3(l, m, T):
         q = m_m_1_queue(l, m, n, T)
         sims.append(calculate_frac(q, n, T))
     diagram = plt.hist(sims, normed=True, color='r', align='left')
+    plt.title("Simulations of Percent of Time the Server is Busy")
+    plt.xlabel("Percent of time the server is busy")
+    plt.ylabel("Proportion of simulations")
+    plt.show()
+
+def simulate_part3_weirdness(l, m, T):
+    sims = []
+    for i in range(0,10000):
+        n = simulate_n(l,m)
+        q = m_m_1_queue(l, m, n, T)
+        sims.append(calculate_frac(q, n, T))
+    '''
+    theory_support = np.linspace(stats.gamma.ppf(0.01, l/m), stats.gamma.ppf(0.99, l/m), 100)
+    theory  = plt.plot(theory_support, stats.gamma(l/m).pdf(theory_support))
+    '''
+    print("Fraction of time busy:" + str(np.mean(sims)))
+    diagram = plt.hist(sims, bins=35, normed=True, color='r', align='left')
     plt.title("Simulations of Percent of Time the Server is Busy")
     plt.xlabel("Percent of time the server is busy")
     plt.ylabel("Proportion of simulations")
@@ -142,7 +159,6 @@ def find_inter_departure(q):
         if q[i][1] == -1:
             times.append(q[i][0])
     return times
-
 
 def simulate_n(l,m):
     u = random.random()
