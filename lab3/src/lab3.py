@@ -15,9 +15,9 @@ def main():
     l = 1
     m = 2
     T = 50
-    simulate_part2(l, m, T)
-    simulate_part3_weirdness(l, m, T * 30)
-    simulate_part4(l, m, T)
+    #simulate_part2(l, m, T)
+    simulate_part3_weirdness(l, m, T)
+    #simulate_part4(l, m, T)
 
     #q = m_m_1_queue(l, m, 0, T)
     #find_inter_departure(q)
@@ -42,7 +42,7 @@ def simulate_part2(l, m, T):
     for i in range(0,10000):
         n = simulate_n(l, m)
         q = m_m_1_queue(l, m, n, T)
-        sims.append(calculate_Xt(q, n))
+        sims.append(calculate_Xt(q,n))
     diagram_support = range(1, max(sims) + 1)
     diagram = plt.hist(sims, normed=True, color='r', align='left', bins=diagram_support)
     theory_support = np.arange(1, max(sims)+1)
@@ -71,7 +71,8 @@ def simulate_part3_weirdness(l, m, T):
     for i in range(0,10000):
         n = simulate_n(l,m)
         q = m_m_1_queue(l, m, n, T)
-        sims.append(calculate_frac(q, n, T))
+        t = calculate_frac(q, n, T)
+        sims.append(t)
     '''
     theory_support = np.linspace(stats.gamma.ppf(0.01, l/m), stats.gamma.ppf(0.99, l/m), 100)
     theory  = plt.plot(theory_support, stats.gamma(l/m).pdf(theory_support))
@@ -130,9 +131,10 @@ def simulate_part4(l, m, T):
 
 def calculate_frac(q, n, T):
     t = 0
+    j = 0
     if n == 0:
         t = t + q[1][0]
-        q = q[1:]
+        j = 1
     for i in range(len(q)):
         n = n + q[i][1]
         if n == 0:
