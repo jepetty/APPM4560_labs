@@ -70,10 +70,10 @@ Recall, when an M/M/1-queue is stationary, one expects its stationary distributi
 \end{figure}
 
 \subsection{Simulating Fraction of Time the Server is Busy}
-After 10,000 simulations of an M/M/1-queue, the fraction of time that the server is busy stabilizes. Below is a plot of 10,000 simulations of an M/M/1-queue with arrival rate $\lambda$ and service rate $\mu$. These results are not surprising, as although one would expect the arrivals and departures would cause the server to be busy $\frac{\lambda}{\mu}=1/2$ of the time, the starting number of items in the queue is distributed based upon the stationary distribution, so often the server will begin needing to be busy rather than at rest, as would be the case if it started with no items every time.
+After 10,000 simulations of an M/M/1-queue, the fraction of time that the server is busy stabilizes. Below is a plot of 10,000 simulations of an M/M/1-queue with arrival rate $\lambda$ and service rate $\mu$. These results are not surprising, as  one would expect the arrivals and departures would cause the server to be busy $\frac{\lambda}{\mu}=1/2$ of the time. Even though the queue starts with a variable number of items, based upon the stationary distribution, eventually it will equilibrium and its expected proportion of working time.
 \begin{figure}[H]
 \includegraphics[scale=0.6]{busy_server}
-\caption{10,000 simulations of an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ for time $T=50$. The proportion of time the server is busy is unsurprising given the starting distribution of the number of items in the queue.}
+\caption{10,000 simulations of an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ for time $T=50$. The proportion of time the server is busy is consistent with the theory that the server should be busy $\frac{\lambda}{\mu}=1/2$ of the time.}
 \label{fig:x}
 \end{figure}
 
