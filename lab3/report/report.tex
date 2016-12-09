@@ -6,10 +6,11 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{amsmath}
-%\usepackage{array}
-%\usepackage{indentfirst}
-%\usepackage{mathptmx}
+\usepackage{array}
+\usepackage{indentfirst}
+\usepackage{mathptmx}
 \usepackage{enumitem}
+\usepackage{float}
 
 \setcounter{secnumdepth}{3}
 
@@ -36,31 +37,7 @@ When $X$ is stationary, the fraction of time that the server is \textit{not} bus
 For an M/M/1-queue, $\pi(0)=1-\frac{\lambda}{\mu}$. (PROOF can be found in notes if we decide it is necessary). Therefore, the fraction of time that the server \textit{is} busy is $1-\pi(0)=1-(1-\frac{\lambda}{\mu})=\frac{\lambda}{\mu}$
 
 \subsection{Simulation of M/M/1-queue}
-Note: Before an algorithm for simulating an M/M/1-queue can be given, one must know how to simulate an Exponential random variable with rate paramater $\lambda$. This can be done with the following, short algorithm:
-\begin{enumerate}[leftmargin=30pt,labelindent=65pt,itemindent=30pt]
-\item[\textsc{step 1:}] Simulate a random variable $U \sim \text{Uniform}(0,1)$
-\item[\textsc{step 2:}] Return $-\ln(U)/\lambda$
-\end{enumerate}
-
-Now, to simulate an M/M/1-queue over time $T$ with arrival rate $\lambda$ and service rate $\mu$, the following algorithm may be followed:
-
-\begin{enumerate}[leftmargin=30pt, labelindent=65pt, itemindent=30pt]
-\item[\textsc{step 1:}] Given inputs $T$, $\lambda$, and $\mu$, set $t:=0$, $i_1:=0$, $D=[]$, $A=[]$, $AD=[]$
-\item[\textsc{step 2:}] Simulate $r_1 \sim \text{Exponential} (\lambda)$ and set $t:=t+r_1$
-\item[\textsc{step 3:}] If $t > T$, go to Step 4, else set $A[i_1]:=t$, $AD[i_1] = (t,1)$, $i_1:=i_1+1$ and go back to Step 2
-\item[\textsc{step 4:}] Set $t:=0$, $i_2:=0$
-\item[\textsc{step 5:}] Simulate $r_2 \sim \text{Exponential} (\mu)$ and set $t:=t+r_2$
-\item[\textsc{step 6:}] If $t>T$ go to Step 7, else set $D[i_2]:=r_2$, $i_2:=i_2+1$ and go back to Step 5
-\item[\textsc{step 7:}] Set $i_{arr}:=0$, $i_{dep}:=0$, and $d:=A[i_{arr}] + D[i_{dep}]$
-\item[\textsc{step 8:}] Set $i_{arr}:=i_{arr}+1$, $i_{dep}:=i_{dep}+1$
-\begin{enumerate}[leftmargin=25pt, labelindent=65pt, itemindent=25pt]
-\item[\textsc{step 8.1:}] If $d + D[i_dep] < T$, set $AD[i_1]:= (d,-1)$ and $i_1=i_1+1$, else return AD
-\item[\textsc{step 8.2:}] If $d + D[i_dep]> A[i_{arr}]$, set $d:=d+D[i_{dep}]$ and go to Step 8
-\item[\textsc{step 8.3}] Else if $d< A[i_{arr}]$, set $d:=A[i_{arr}] + D[i_{dep}]$ and to to Step 8
-\end{enumerate}
-\end{enumerate}
-
-Or, alternatively, one can use the superposition argument of exponentials to create higher-rate event times, and then use thinning to deduce whether the observed event is an arrival or a departure. Using the following algorithm, one can also simulate an M/M/1-queue holding $n$ items over time $T$ with arrival rate $\lambda$ and service rate $\mu$.
+Now, to simulate an M/M/1-queue one can use the superposition argument of exponentials to create higher-rate event times, and then use thinning to deduce whether the observed event is an arrival or a departure. Using the following algorithm, one can also simulate an M/M/1-queue holding $n$ items over time $T$ with arrival rate $\lambda$ and service rate $\mu$.
 
 \begin{enumerate}[leftmargin=30pt,labelindent=65pt,itemindent=30pt]
 \item[\textsc{step 1:}] Set $i:=0$, $\tau:=0$, and $q(0):=(0,0)$
@@ -85,8 +62,14 @@ To calculate the fraction of time that the server is busy between times $0 \text
 Again, once the simulation of an M/M/1-queue has been performed, determining the inter-departure times of items in the queue can be done by examining the contents of the returned vector. For each tuple in the vector, examine whether that tuple represents an arrival or a departure. If it represents a departure, store its departure time until the next departure is found. At that point, add the difference of these two times to another vector storing inter-departure times and repeat the process, storing the most recent departure time as the first departure time in the algorithm. In this way, upon reaching the end of the vector, all inter-departure times between time $0 \text{and} T$ will have been calculated using the results of the simulation of an M/M/1-queue.
 
 \subsection{Simulating $X_T$ when $X$ is Stationary}
-\subsection{}
-\subsection{}
+Recall, when an M/M/1-queue is stationary, one expects is distribution to be Geometric with success parameter $\frac{\lambda}{\mu}$ where $\lambda$ is the rate of arrival to the queue and $\mu$ is the service rate of the queue. Therefore, simulating an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ over time $T=50$, one would expect the number of items remaining in the queue at time $T$ to follow a geometric distribution with success parameter $1/2$. The findings of our simulation are consistent with this theory, as one can observe. After $10,000$ simulations of this M/M/1-queue, we found that in fact the number of items in the queue at time $T$ roughly followed a geometric distribution. The initial number of items in the queue $n$ is a random variable whose probability distribution is based on the stationary distribution of $X$.
+\begin{figure}[H]
+\includegraphics[scale=0.7]{simulation_xt}
+\caption{The result of 10,000 simulations of $X_T$, an M/M/1-queue over time $T=50$ with arrival rate $\lambda=1$ and service rate $\mu=2$, against the expected probability mass function of a geometric distribution with success parameter 1/2.}
+\label{fig:x}
+\end{figure}
+\subsection{Simulating Fraction of Time the Server is Busy}
+\subsection{Demonstrating Output Process is HPP($\lambda$)}
 
 
 
