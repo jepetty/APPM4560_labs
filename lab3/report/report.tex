@@ -28,7 +28,7 @@
 For an M/M/1 queue to have a stationary distribution, it is a necessary and sufficient condition that its arrival rate be less than its service. In the case of the queue provided, this means that $\lambda < \mu$.
 
 \subsection{Distribution of a Stationary Queue}
-When $X$ is stationary, this is equivalent to saying that it is in equilibrium. We know that an M/M/1-queue in equilibrium will have a geometric distribution of items inside. Now, given that $X_T$ is the number of items in the queue at time $T$, we can then say that the distribution of $X_T$ is geometric with success parameter $\frac{\lambda}{\mu}$.
+When $X$ is stationary, this is equivalent to saying that it is in equilibrium. We know that an M/M/1-queue in equilibrium will have a geometric distribution of items inside. Now, given that $X_T$ is the number of items in the queue at time $T$, we can then say that the distribution of $X_T$, which is $P(X_T = t) = \pi(t)$, is geometric with success parameter $\frac{\lambda}{\mu}$.
 
 \subsection{Busy Server}
 When $X$ is stationary, the fraction of time that the server is \textit{not} busy is equivalent to the value $\pi(0)$. Conceptually, this is because the stationary distribution $\pi(x)$ represents the fraction of time that the queue has $x$ items in it. Clearly, if $x > 0$, this means the server is busy, as there are items in the queue, and when $x=0$ the server cannot be busy because there are no items in the queue, either waiting or being served.
@@ -68,3 +68,4 @@ To calculate the fraction of time that the server is busy between times $0 \text
 
 
 \end{document}  
+\grid
