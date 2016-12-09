@@ -70,27 +70,27 @@ Recall, when an M/M/1-queue is stationary, one expects its stationary distributi
 \end{figure}
 
 \subsection{Simulating Fraction of Time the Server is Busy}
-After 10,000 simulations of an M/M/1-queue, the fraction of time that the server is busy stabilizes. Below is a plot of 10,000 simulations of an M/M/1-queue with arrival rate $\lambda$ and service rate $\mu$. These results are not surprising, as  one would expect the arrivals and departures would cause the server to be busy $\frac{\lambda}{\mu}=1/2$ of the time. Even though the queue starts with a variable number of items, based upon the stationary distribution, eventually it will equilibrium and its expected proportion of working time.
+After 10,000 simulations of an M/M/1-queue, the fraction of time that the server is busy stabilizes. Below in figure~\ref{fig:busy} is a plot of 10,000 simulations of an M/M/1-queue with arrival rate $\lambda$ and service rate $\mu$. These results are not surprising, as  one would expect the arrivals and departures would cause the server to be busy $\frac{\lambda}{\mu}=1/2$ of the time. Even though the queue starts with a variable number of items, based upon the stationary distribution, eventually it will equilibrium and its expected proportion of working time.
 \begin{figure}[H]
 \includegraphics[scale=0.6]{busy_server}
 \caption{10,000 simulations of an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ for time $T=50$. The proportion of time the server is busy is consistent with the theory that the server should be busy $\frac{\lambda}{\mu}=1/2$ of the time.}
-\label{fig:x}
+\label{fig:busy}
 \end{figure}
 
 \subsection{Demonstrating Output Process is HPP($\lambda$)}
-Given an M/M/1-queue $X$ in equilibrium, one would expect its output process to be a homogenous Poisson point process with intensity $\lambda$, where $\lambda$ is the arrival rate to the queue. One can think of this conclusion in terms of limiting rates; as items in the queue are being served more quickly than they are arriving, the limiting rate to the output process is the arrival rate $\lambda$. Therefore, one would expect that simulations of the inter-departure times of such an M/M/1-queue would carry the same characteristics of a homogenous Poisson process. 
+Given an M/M/1-queue $X$ in equilibrium, one would expect its output process to be a homogenous Poisson point process with intensity $\lambda$, where $\lambda$ is the arrival rate to the queue. One can think of this conclusion in terms of limiting rates; as items in the queue are being served more quickly than they are arriving, the limiting rate to the output process is the arrival rate $\lambda$. Therefore, one would expect that simulations of the inter-departure times of such an M/M/1-queue would behave the same as a homogenous Poisson process. 
 
-Now, this means that for an HPP with intensity $\lambda=2$, one would expect the number of arrivals over the interval $[0,T=50]$ to be a Poisson distribution with parameter $\lambda T=50$. The plot of simulations of the number of departures of the M/M/1-queue over this interval confirms this characteristic of homogenous Poisson processes. 
+This means that for an HPP with intensity $\lambda=2$, one would expect the number of arrivals over the interval $[0,T=50]$ to be a Poisson distribution with parameter $\lambda T=50$. The plot of simulations of the number of departures of the M/M/1-queue over this interval in figure~\ref{fig:depart_count} confirms this characteristic of homogenous Poisson processes.
 \begin{figure}[H]
 \includegraphics[scale=0.55]{nt_hpp}
 \caption{10,000 simulations of the number of departures of an M/M/1-queue in equilibrium beside the expected probability mass function of a Poisson distribution with paramater $\lambda T=50$.}
-\label{fig:x}
+\label{fig:depart_count}
 \end{figure}
-Additionally, one would expect the inter-departure times of this homogenous Poisson process to have an exponential distribution with rate $\lambda = 1$. Simulating the time between the last departure on the interval and the departure directly preceding it, one sees that this inter-departure time does in fact follow the expected distribution.
+Additionally, one would expect the inter-departure times of this homogenous Poisson process to have an exponential distribution with rate $\lambda = 1$. Simulating the time between the last departure on the interval and the departure directly preceding it, one sees in figure~\ref{fig:inter_departure} that this inter-departure time does in fact follow the expected distribution.
 \begin{figure}[H]
 \includegraphics[scale=0.55]{tn_tn1}
 \caption{10,000 simulations of the inter-departure time of the second-to-last and last departure of an M/M/1-queue with arrival rate $\lambda = 1$ over time $T=50$ against the expected exponential distribution with rate parameter $\lambda = 1$.}
-\label{fig:x}
+\label{fig:inter_departure}
 \end{figure}
 
 \end{document}  
