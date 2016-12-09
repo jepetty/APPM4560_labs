@@ -29,7 +29,7 @@
 For an M/M/1 queue to have a stationary distribution, it is a necessary and sufficient condition that its arrival rate be less than its service rate. In the case of the queue provided, this means that $\lambda < \mu$.
 
 \subsection{Distribution of a Stationary Queue}
-When $X$ is stationary, this is equivalent to saying that it is in equilibrium. We know that an M/M/1-queue in equilibrium will have a geometric distribution of items inside. Now, given that $X_T$ is the number of items in the queue at time $T$, we can then say that the distribution of $X_T$, which is $P(X_T = t) = \pi(t)$, is geometric with success parameter $\frac{\lambda}{\mu}$.
+When $X$ is stationary, this is equivalent to saying that it is in equilibrium. We know that the item count of a M/M/1-queue in equilibrium will have a geometric distribution. Now, given that $X_T$ is the number of items in the queue at time $T$, we can then say that the distribution of $X_T$, which is $P(X_T = t) = \pi(t)$, is geometric with success parameter $\frac{\lambda}{\mu}$.
 
 \subsection{Busy Server}
 When $X$ is stationary, the fraction of time that the server is \textit{not} busy is equivalent to the value $\pi(0)$. Conceptually, this is because the stationary distribution $\pi(x)$ represents the fraction of time that the queue has $x$ items in it. Clearly, if $x > 0$, this means the server is busy, as there are items in the queue, and when $x=0$ the server cannot be busy because there are no items in the queue, either waiting or being served.
@@ -42,7 +42,7 @@ Now, to simulate an M/M/1-queue one can use the superposition argument of expone
 \begin{enumerate}[leftmargin=30pt,labelindent=65pt,itemindent=30pt]
 \item[\textsc{step 1:}] Set $i:=0$, $\tau:=0$, and $q(0):=(0,0)$
 \item[\textsc{step 2:}] Simulate $U_1 \sim \text{Uniform}(0,1)$
-\item[\textsc{step 3:}] If the queue is empty: set $i:=i-1$, $\tau:=q(i-1)(0) - \frac{\ln(U_1)}{\lambda}$, and $q(i):=(\tau, 1)$
+\item[\textsc{step 3:}] If the queue is empty: set $i:=i-1$, $\tau:=q(i-1,0) - \frac{\ln(U_1)}{\lambda}$, and $q(i):=(\tau, 1)$
 \item[\textsc{step 4:}] Otherwise, if the queue is nonempty:
 \begin{enumerate}[leftmargin=25pt,labelindent=65pt,itemindent=25pt]
 \item[\textsc{step 4.1:}] Set $i:=i+1$ and set $\tau:=q(i-1)(0) - \frac{\ln(U_1)}{\lambda + \mu}$
@@ -62,11 +62,11 @@ To calculate the fraction of time that the server is busy between times $0 \text
 Again, once the simulation of an M/M/1-queue has been performed, determining the inter-departure times of items in the queue can be done by examining the contents of the returned vector. For each tuple in the vector, examine whether that tuple represents an arrival or a departure. If it represents a departure, store its departure time until the next departure is found. At that point, add the difference of these two times to another vector storing inter-departure times and repeat the process, storing the most recent departure time as the first departure time in the algorithm. In this way, upon reaching the end of the vector, all inter-departure times between time $0 \text{ and } T$ will have been calculated using the results of the simulation of an M/M/1-queue.
 
 \subsection{Simulating $X_T$ when $X$ is Stationary}
-Recall, when an M/M/1-queue is stationary, one expects is distribution to be Geometric with success parameter $\frac{\lambda}{\mu}$ where $\lambda$ is the rate of arrival to the queue and $\mu$ is the service rate of the queue. Therefore, simulating an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ over time $T=50$, one would expect the number of items remaining in the queue at time $T$ to follow a geometric distribution with success parameter $1/2$. The findings of our simulation are consistent with this theory, as one can observe. After $10,000$ simulations of this M/M/1-queue, we found that in fact the number of items in the queue at time $T$ roughly followed a geometric distribution. The initial number of items in the queue $n$ is a random variable whose probability distribution is based on the stationary distribution of $X$.
+Recall, when an M/M/1-queue is stationary, one expects its stationary distribution to be geometric with success parameter $\frac{\lambda}{\mu}$ where $\lambda$ is the rate of arrival to the queue and $\mu$ is the service rate of the queue. Therefore, simulating an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ over time $T=50$, one would expect the number of items remaining in the queue at time $T$ to follow a geometric distribution with success parameter $1/2$. The findings of our simulation are consistent with this theory, as one can observe in figure~\ref{fig:items}. After $10,000$ simulations of this M/M/1-queue, we found that in fact the number of items in the queue at time $T$ followed a geometric distribution with the expected success parameter. The initial number of items in the queue $n$ is a random variable whose probability distribution is based on the stationary distribution of $X$.
 \begin{figure}[H]
 \includegraphics[scale=0.6]{simulation_xt}
 \caption{The result of 10,000 simulations of $X_T$, an M/M/1-queue over time $T=50$ with arrival rate $\lambda=1$ and service rate $\mu=2$, against the expected probability mass function of a geometric distribution with success parameter 1/2.}
-\label{fig:x}
+\label{fig:items}
 \end{figure}
 
 \subsection{Simulating Fraction of Time the Server is Busy}
