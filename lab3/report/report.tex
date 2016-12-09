@@ -34,7 +34,7 @@ When $X$ is stationary, this is equivalent to saying that it is in equilibrium. 
 \subsection{Busy Server}
 When $X$ is stationary, the fraction of time that the server is \textit{not} busy is equivalent to the value $\pi(0)$. Conceptually, this is because the stationary distribution $\pi(x)$ represents the fraction of time that the queue has $x$ items in it. Clearly, if $x > 0$, this means the server is busy, as there are items in the queue, and when $x=0$ the server cannot be busy because there are no items in the queue, either waiting or being served.
 
-For an M/M/1-queue, $\pi(0)=1-\frac{\lambda}{\mu}$. (PROOF can be found in notes if we decide it is necessary). Therefore, the fraction of time that the server \textit{is} busy is $1-\pi(0)=1-(1-\frac{\lambda}{\mu})=\frac{\lambda}{\mu}$
+For an M/M/1-queue, $\pi(0)=1-\frac{\lambda}{\mu}$. Therefore, the fraction of time that the server \textit{is} busy is $1-\pi(0)=1-(1-\frac{\lambda}{\mu})=\frac{\lambda}{\mu}$
 
 \subsection{Simulation of M/M/1-queue}
 Now, to simulate an M/M/1-queue one can use the superposition argument of exponentials to create higher-rate event times, and then use thinning to deduce whether the observed event is an arrival or a departure. Using the following algorithm, one can also simulate an M/M/1-queue holding $n$ items over time $T$ with arrival rate $\lambda$ and service rate $\mu$.
@@ -64,7 +64,7 @@ Again, once the simulation of an M/M/1-queue has been performed, determining the
 \subsection{Simulating $X_T$ when $X$ is Stationary}
 Recall, when an M/M/1-queue is stationary, one expects is distribution to be Geometric with success parameter $\frac{\lambda}{\mu}$ where $\lambda$ is the rate of arrival to the queue and $\mu$ is the service rate of the queue. Therefore, simulating an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ over time $T=50$, one would expect the number of items remaining in the queue at time $T$ to follow a geometric distribution with success parameter $1/2$. The findings of our simulation are consistent with this theory, as one can observe. After $10,000$ simulations of this M/M/1-queue, we found that in fact the number of items in the queue at time $T$ roughly followed a geometric distribution. The initial number of items in the queue $n$ is a random variable whose probability distribution is based on the stationary distribution of $X$.
 \begin{figure}[H]
-\includegraphics[scale=0.7]{simulation_xt}
+\includegraphics[scale=0.6]{simulation_xt}
 \caption{The result of 10,000 simulations of $X_T$, an M/M/1-queue over time $T=50$ with arrival rate $\lambda=1$ and service rate $\mu=2$, against the expected probability mass function of a geometric distribution with success parameter 1/2.}
 \label{fig:x}
 \end{figure}
@@ -72,14 +72,26 @@ Recall, when an M/M/1-queue is stationary, one expects is distribution to be Geo
 \subsection{Simulating Fraction of Time the Server is Busy}
 After 10,000 simulations of an M/M/1-queue, the fraction of time that the server is busy stabilizes. Below is a plot of 10,000 simulations of an M/M/1-queue with arrival rate $\lambda$ and service rate $\mu$. These results are not surprising, as although one would expect the arrivals and departures would cause the server to be busy $\frac{\lambda}{\mu}=1/2$ of the time, the starting number of items in the queue is distributed based upon the stationary distribution, so often the server will begin needing to be busy rather than at rest, as would be the case if it started with no items every time.
 \begin{figure}[H]
-\includegraphics[scale=0.7]{busy_server}
+\includegraphics[scale=0.6]{busy_server}
 \caption{10,000 simulations of an M/M/1-queue with arrival rate $\lambda=1$ and service rate $\mu=2$ for time $T=50$. The proportion of time the server is busy is unsurprising given the starting distribution of the number of items in the queue.}
 \label{fig:x}
 \end{figure}
 
 \subsection{Demonstrating Output Process is HPP($\lambda$)}
+Given an M/M/1-queue $X$ in equilibrium, one would expect its output process to be a homogenous Poisson point process with intensity $\lambda$, where $\lambda$ is the arrival rate to the queue. One can think of this conclusion in terms of limiting rates; as items in the queue are being served more quickly than they are arriving, the limiting rate to the output process is the arrival rate $\lambda$. Therefore, one would expect that simulations of the inter-departure times of such an M/M/1-queue would carry the same characteristics of a homogenous Poisson process. 
 
-
+Now, this means that for an HPP with intensity $\lambda=2$, one would expect the number of arrivals over the interval $[0,T=50]$ to be a Poisson distribution with parameter $\lambda T=50$. The plot of simulations of the number of departures of the M/M/1-queue over this interval confirms this characteristic of homogenous Poisson processes. 
+\begin{figure}[H]
+\includegraphics[scale=0.55]{nt_hpp}
+\caption{10,000 simulations of the number of departures of an M/M/1-queue in equilibrium beside the expected probability mass function of a Poisson distribution with paramater $\lambda T=50$.}
+\label{fig:x}
+\end{figure}
+Additionally, one would expect the inter-departure times of this homogenous Poisson process to have an exponential distribution with rate $\lambda = 1$. Simulating the time between the last departure on the interval and the departure directly preceding it, one sees that this inter-departure time does in fact follow the expected distribution.
+\begin{figure}[H]
+\includegraphics[scale=0.55]{tn_tn1}
+\caption{10,000 simulations of the inter-departure time of the second-to-last and last departure of an M/M/1-queue with arrival rate $\lambda = 1$ over time $T=50$ against the expected exponential distribution with rate parameter $\lambda = 1$.}
+\label{fig:x}
+\end{figure}
 
 \end{document}  
 \grid
