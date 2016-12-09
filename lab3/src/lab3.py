@@ -15,8 +15,8 @@ def main():
     l = 1
     m = 2
     T = 50
-    #simulate_part2(l, m, T)
-    #simulate_part3(l, m, T)
+    simulate_part2(l, m, T)
+    simulate_part3(l, m, T)
     simulate_part4(l, m, T)
 
     #q = m_m_1_queue(l, m, 0, T)
@@ -43,9 +43,12 @@ def simulate_part2(l, m, T):
         n = simulate_n(l, m)
         q = m_m_1_queue(l, m, n, T)
         sims.append(calculate_Xt(q, n))
-    diagram = plt.hist(sims, normed=True, color='r', align='left')
+    diagram_support = range(1, max(sims) + 1)
+    diagram = plt.hist(sims, normed=True, color='r', align='left', bins=diagram_support)
     theory_support = np.arange(1, max(sims)+1)
     theory = plt.plot(theory_support, stats.geom.pmf(theory_support, l/m))
+    axes = plt.gca()
+    axes.set_xlim(1, max(sims))
     plt.title("Simulations of $X_T$ with $(\lambda, \mu, T) = (1,2,50)$")
     plt.xlabel("$n$ number of items in queue at time $T$")
     plt.ylabel("Proportion of time with $n$ items")
